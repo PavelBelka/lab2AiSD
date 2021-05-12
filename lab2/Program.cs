@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace lab2
 {
     class Program
     {
-        public static int[] array_x;
-        public static int[] array_y;
+        public static double[] array_x;
+        public static double[] array_y;
         public static List<int> point;
         private static int amount_of_points = 0;
         private static List<int> tops;
@@ -22,8 +20,8 @@ namespace lab2
             //read_file();
             Console.WriteLine("Введите количество точек: ");
             amount_of_points = Convert.ToInt32(Console.ReadLine());
-            array_x = new int[amount_of_points];
-            array_y = new int[amount_of_points];
+            array_x = new double[amount_of_points];
+            array_y = new double[amount_of_points];
             point = new List<int>();
             for (int i = 0; i < amount_of_points; i++)
             {
@@ -38,8 +36,8 @@ namespace lab2
             //}
             Console.WriteLine("Координаты точек сгенерированы.\nВычисление оболочки...");
             stopwatch.Start();
-            //AlgorithmDjarviz(amount_of_points);
-            QuickHull(amount_of_points);
+            AlgorithmDjarviz(amount_of_points);
+            //QuickHull(amount_of_points);
             stopwatch.Stop();
             Console.WriteLine("Время выполнения алгоритма: " + stopwatch.ElapsedMilliseconds);
             Console.WriteLine("Создание файла...");
@@ -60,8 +58,8 @@ namespace lab2
         public static void Random_coordinate(int N){
             Random rnd = new Random();
             for(int i = 0; i < N; i++){
-                array_x[i] = rnd.Next(-10, 10);
-                array_y[i] = rnd.Next(-10, 10);
+                array_x[i] = -10 + rnd.NextDouble() * 20;
+                array_y[i] = -10 + rnd.NextDouble() * 20;
             }
         }
 
@@ -120,8 +118,8 @@ namespace lab2
             }
         }
 
-        public static int Rotate(int A_x, int A_y, int B_x, int B_y, int C_x, int C_y){
-            int Orientation = (B_x - A_x) * (C_y - A_y) - (C_x - A_x) * (B_y - A_y);
+        public static double Rotate(double A_x, double A_y, double B_x, double B_y, double C_x, double C_y){
+            double Orientation = (B_x - A_x) * (C_y - A_y) - (C_x - A_x) * (B_y - A_y);
                 return Orientation;
         }
 
@@ -157,7 +155,8 @@ namespace lab2
 
         public static void QuickHull(int N)
         {
-            int left_point = 0, right_point = 0, Degree = 0;
+            int left_point = 0, right_point = 0;
+            double Degree = 0;
             List<int> S1 = new List<int>();
             List<int> S2 = new List<int>();
             tops = new List<int>();
